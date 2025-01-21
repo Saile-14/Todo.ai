@@ -1,4 +1,5 @@
-import { Navbar } from "./components/navbar"
+import { Navbar } from "./components/Navbar"
+import { TaskInput } from "./components/Task-input"
 import { ThemeProvider } from "./components/theme-provider"
 
 
@@ -8,6 +9,7 @@ function App() {
     <>
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <Navbar />  
+      <TaskInput />
     </ThemeProvider>
       
     </>
