@@ -1,19 +1,13 @@
-import { Navbar } from "./components/Navbar"
-import { TaskInput } from "./components/Task-input"
-import { ThemeProvider } from "./components/theme-provider"
-
+import  Navbar  from './components/Navbar';
+import TaskContainer from './components/TaskContainer';
 
 function App() {
-
   return (
     <>
-    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <Navbar />  
-      <TaskInput />
-    </ThemeProvider>
-      
+        <Navbar />
+        <TaskContainer />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
