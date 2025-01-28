@@ -24,7 +24,7 @@ const TaskContainer = () => {
   };
 
   return (
-    <div className="flex flex-col items-center min-h-[calc(100vh-8rem)] pt-4 animated-background">
+    <div className="flex flex-col items-center min-h-[89vh] pt-4 ">
       <div className="w-full max-w-4xl mx-auto bg-[#F5F5F5] rounded-lg p-6 h-[calc(100vh-10rem)] flex flex-col">
         {/* TaskInput */}
         <div className="sticky top-0 bg-[#F5F5F5] z-10 pb-4">

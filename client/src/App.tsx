@@ -4,8 +4,11 @@ import TaskContainer from './components/TaskContainer';
 function App() {
   return (
     <>
+      <div className='animated-background'>
         <Navbar />
         <TaskContainer />
+      </div>
+        
     </>
   );
 }

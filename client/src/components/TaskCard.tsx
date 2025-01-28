@@ -1,5 +1,7 @@
 import { Checkbox } from "./ui/checkbox";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./ui/accordion";
+import { TaskOptionsButton } from "./TaskOptionsButton";
+import { PopoverDemo } from "./ui/popoverdemo";
 
 interface TaskCardProps {
   id: number;
@@ -17,8 +19,8 @@ export const TaskCard = ({ id, title, content, isChecked, onCheckChange }: TaskC
         className="border-b-0 rounded-lg  hover:bg-gray-50 transition-colors"
       >
         {/* Wrap the entire card content in AccordionTrigger */}
-        <AccordionTrigger className="w-full text-left hover:no-underline p-4">
-          <div className="flex items-center space-x-4 w-full">
+        <AccordionTrigger className="w-full rounded-lg text-left hover:no-underline p-4">
+          <div className="flex items-center w-full">
 
             {/* Checkbox */}
             <div
@@ -30,16 +32,21 @@ export const TaskCard = ({ id, title, content, isChecked, onCheckChange }: TaskC
                   id={`task-${id}`}
                   checked={isChecked}
                   onCheckedChange={(checked) => onCheckChange(id, checked as boolean)}
+                  className="w-8 h-8"
                 />
               </label>
             </div>
 
             {/* Title */}
-            <div className="text-lg font-medium flex-1">
-              {title}
-            </div>
+              <div className="text-lg ml-6  font-medium ">
+                {title}
+              </div>
+              <div className="ml-auto mr-8">
+                <TaskOptionsButton initialTitle={title} initialContent={content} id={id} />
+              </div>
           </div>
         </AccordionTrigger>
+        
 
         {/* Content */}
         <AccordionContent className="px-4 pb-4 text-center text-gray-600 overflow-hidden data-[state=open]:animate-accordion-open data-[state=closed]:animate-accordion-close">

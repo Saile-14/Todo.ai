@@ -1,7 +1,7 @@
 export default function Navbar() {
   return (
     <>
-      <header className="bg-[#1D1616] py-4 shadow-md">
+      <header className="py-4 ">
         <div className="container mx-auto">
           <img
             src="/todo-logo.png"
