@@ -1,34 +1,21 @@
 package main
 
 import (
-	"encoding/json"
+	"database/sql"
 	"fmt"
 	"log"
 	"net/http"
 
+	_ "modernc.org/sqlite"
+
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
-	"gorm.io/driver/sqlite"
-	"gorm.io/gorm"
 )
 
-type Task struct {
-	gorm.Model
-	Title   string `json:"title"`
-	Content string `json:"content"`
-}
-
-var db *gorm.DB
-
 func init() {
-	var err error
-	db, err = gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
+	db, err := sql.Open("sqlite", "file:test.db")
 	if err != nil {
-		panic("failed to connect database")
-	}
-
-	if err := db.AutoMigrate(&Task{}); err != nil {
-		log.Fatal("failed to migrate database:", err)
+		log.Fatal(err)
 	}
 }
 
@@ -52,39 +39,16 @@ func main() {
 
 }
 
-func getTasksHandler(w http.ResponseWriter, r *http.Request) {
-	var tasks []Task
-	result := db.Find(&tasks)
-
-	if result.Error != nil {
-		http.Error(w, "Failed to retrieve tasks", http.StatusInternalServerError)
-		log.Println("Error fetching tasks:", result.Error)
-		return
-	}
-	w.Header().Set("Content-Type", "application/json")
-
-	if err := json.NewEncoder(w).Encode(tasks); err != nil {
-		http.Error(w, "Error encoding tasks", http.StatusInternalServerError)
-		log.Println("Error encoding tasks to JSON:", err)
-		return
-	}
+func setupRouters() *mux.Router {
+	r := mux.NewRouter()
+	r.HandleFunc("/tasks", getTasksHandler).Methods("GET")
+	r.HandleFunc("/tasks", createTaskHandler).Methods("POST")
+	return r
 }
 
-func createTaskHandler(w http.ResponseWriter, r *http.Request) {
-	var newTask Task
-
-	err := json.NewDecoder(r.Body).Decode(&newTask)
-	if err != nil {
-		http.Error(w, "invalid request payload", 400)
-		return
-	}
-
-	if err := db.Create(&newTask).Error; err != nil {
-		http.Error(w, "Couldnt create task", http.StatusInternalServerError)
-		return
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusCreated)
-	json.NewEncoder(w).Encode(newTask)
+func setupCORS(r *mux.Router) http.Handler {
+	corsOptions := handlers.AllowedOrigins([]string{"http://localhost:5173"})
+	corsMethods := handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE"})
+	corsHeaders := handlers.AllowedHeaders([]string{"Content-Type"})
+	return handlers.CORS(corsOptions, corsMethods, corsHeaders)(r)
 }
