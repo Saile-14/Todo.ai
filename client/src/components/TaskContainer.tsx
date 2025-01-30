@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { TaskInput } from "./TaskInput";
 import { TaskCard } from "./TaskCard";
 import { ScrollArea } from "./ui/scroll-area";
@@ -15,7 +14,7 @@ const TaskContainer = () => {
   }
   
 
-  const {data: tasks, isError, isPending, error} = useGetTasks();
+  const {data: tasks, status, error} = useGetTasks();
 
   const handleCheckChange = (id: number, isChecked: boolean) => {
   };
@@ -45,9 +44,8 @@ const TaskContainer = () => {
                 onCheckChange={handleCheckChange}
               />
             ))}
-            {isPending && <p>Loading...</p>}
-            {isError && <p>Error: {String(error)}</p>}
-            {tasks! && <p>Error, no tasks found!</p>}
+            {status === 'pending' && <p>Loading...</p>}
+            {status == 'error' && <p>Error: {String(error)}</p>}
           </div>
         </ScrollArea>
       </div>
