@@ -11,10 +11,6 @@ export interface TaskCardProps {
   createdAt?: Date;
 }
 
-
-
-
-
 export const TaskCard = ({ id, title, content, isChecked }: TaskCardProps) => {
   const {mutate: updateTask} = useUpdateTask();
   function onCheckChange(variables: updateTaskVariables) {
