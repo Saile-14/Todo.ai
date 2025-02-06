@@ -1,17 +1,22 @@
 import { Checkbox } from "./ui/checkbox";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./ui/accordion";
 import { TaskOptionsButton } from "./TaskOptionsButton";
+import { updateTaskVariables, useUpdateTask } from "@/lib/hooks/useUpdateTask";
 
-
-interface TaskCardProps {
+export interface TaskCardProps {
   id: number;
   title: string;
   content: string;
   isChecked: boolean;
-  onCheckChange: (id: number, isChecked: boolean) => void;
+  createdAt?: Date;
 }
 
-export const TaskCard = ({ id, title, content, isChecked, onCheckChange }: TaskCardProps) => {
+export const TaskCard = ({ id, title, content, isChecked }: TaskCardProps) => {
+  const {mutate: updateTask} = useUpdateTask();
+  function onCheckChange(variables: updateTaskVariables) {
+  
+    updateTask(variables)
+  }
   return (
     <Accordion type="single" collapsible>
       <AccordionItem
@@ -22,28 +27,31 @@ export const TaskCard = ({ id, title, content, isChecked, onCheckChange }: TaskC
         <AccordionTrigger className="w-full rounded-lg text-left hover:no-underline p-4">
           <div className="flex items-center w-full">
 
+
             {/* Checkbox */}
             <div
-              onClick={(e) => e.stopPropagation()} 
+              
               className="flex-none" 
             >
-              <label htmlFor={`task-${id}`} className="cursor-pointer">
+              <label htmlFor={`task-${id}`} className="cursor-pointer" onClick={(e) => e.stopPropagation()} >
                 <Checkbox
                   id={`task-${id}`}
                   checked={isChecked}
-                  onCheckedChange={(checked) => onCheckChange(id, checked as boolean)}
+                  onCheckedChange={(checked) => onCheckChange({taskId: id, data:{isChecked:checked as boolean}})}
                   className="w-8 h-8"
+                  
                 />
               </label>
             </div>
 
             {/* Title */}
-              <div className="text-lg ml-6  font-medium ">
-                {title}
-              </div>
-              <div className="ml-auto mr-8">
-                <TaskOptionsButton initialTitle={title} initialContent={content} id={id} />
-              </div>
+            <div className="text-lg ml-6  font-medium ">
+              {title}
+            </div>
+            <div className="ml-auto mr-8">
+              <TaskOptionsButton initialTitle={title} initialContent={content} id={id} />
+            </div>
+          
           </div>
         </AccordionTrigger>
         

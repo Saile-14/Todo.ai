@@ -1,17 +1,17 @@
-import { ReactEventHandler, useState } from 'react';
+
+import { useCreateTask } from '@/lib/hooks/useCreateTask';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
-import { useCreateTask } from '@/lib/hooks/useCreateTask';
-import { MutateOptions } from '@tanstack/react-query';
+import { useState } from 'react';
 
 export function TaskInput() {
+  
+  const [input, setInput] = useState("")
 
-  const [title, setTitle] = useState("");
-  const {mutate, isPending, error} = useCreateTask();
+  const {mutate: createTask} = useCreateTask();
 
-  const handleSubmit = async () => {
-    mutate({title: title, content: title.repeat(3)})
-    setTitle("");
+  function handleSubmit() {
+    createTask(input);
   }
 
   return (
@@ -22,8 +22,8 @@ export function TaskInput() {
             className="mr-0 rounded-r-none h-16 w-full text-2xl"
             type="text"
             placeholder="Enter your task here for an AI generated ToDo"
-            onChange={(e) => setTitle(e.target.value)}
-            value={title}
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
           />
           <Button onClick={handleSubmit} className="ml-0 rounded-l-none h-16 px-6" type="submit">
             Add Task
