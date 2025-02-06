@@ -1,26 +1,26 @@
-import { useState } from "react";
 import { TaskInput } from "./TaskInput";
 import { TaskCard } from "./TaskCard";
 import { ScrollArea } from "./ui/scroll-area";
-import { useGetTasks } from "@/lib/hooks/useGetTasks";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./ui/accordion";
+
+export interface Task {
+  id:number,
+  title:string,
+  content:string,
+  isChecked:boolean,
+  createdAt:string,
+}
 
 const TaskContainer = () => {
 
-  interface Task {
-    id:number,
-    title:string,
-    content:string,
-    isChecked:boolean,
-    createdAt:string,
-  }
+  
+  const taskss = [{id:1, title: "hsdfsd", content:"sdfsdfsdfdsf", isChecked:false, createdAt:"sdlfkjsdlfksj"}, {id:2, title: "Hejjjj", content:"jodåååå", isChecked:true, createdAt:"sdlfkjsdlfksj"}]
   
 
-  const {data: tasks, isError, isPending, error} = useGetTasks();
-
-  const handleCheckChange = (id: number, isChecked: boolean) => {
-  };
+  /*  const {data: tasks, isError, isPending, error} = useGetTasks(); */
 
   return (
+    <>
     <div className="flex flex-col items-center min-h-[89vh] pt-4 ">
       <div className="w-full max-w-4xl mx-auto bg-[#F5F5F5] rounded-lg p-6 h-[calc(100vh-10rem)] flex flex-col">
         
@@ -35,23 +35,46 @@ const TaskContainer = () => {
         {/* Task Cards */}
         <ScrollArea className="flex-1">
           <div className="space-y-4">
-            {tasks?.map((task:Task , taskIndex: number) => (
-              <TaskCard
+            {taskss.flatMap((task:Task, taskIndex:number) => {
+              if (!task.isChecked) {
+                return (<TaskCard
                 key={taskIndex}
                 id={task.id}
                 title={task.title}
                 content={task.content}
                 isChecked={task.isChecked}
-                onCheckChange={handleCheckChange}
-              />
-            ))}
-            {isPending && <p>Loading...</p>}
+              />)
+
+              }
+              })}
+            {/* {isPending && <p>Loading...</p>}
             {isError && <p>Error: {String(error)}</p>}
-            {tasks! && <p>Error, no tasks found!</p>}
+            {tasks! && <p>Error, no tasks found!</p>} */}
           </div>
         </ScrollArea>
+        <Accordion className="border-none drop-shadow-none " type="single" collapsible>
+  <AccordionItem value="item-1">
+    <AccordionTrigger className="text-center justify-center bg-gray-400">Archive</AccordionTrigger>
+    <AccordionContent>
+    {taskss.flatMap((task:Task, taskIndex:number) => {
+              if (task.isChecked) {
+                return (<TaskCard
+                key={taskIndex}
+                id={task.id}
+                title={task.title}
+                content={task.content}
+                isChecked={task.isChecked}
+              />)
+
+              }
+              })}
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>
       </div>
+      
     </div>
+    </>
   );
 };
 

@@ -7,12 +7,12 @@ const queryClient = new QueryClient()
 function App() {
   return (
     <>
-    <QueryClientProvider client={queryClient}>
-     <div className='animated-background'>
-        <Navbar />
-        <TaskContainer />
-      </div>
-    </QueryClientProvider>  
+      <QueryClientProvider client={queryClient}>
+        <div className='animated-background'>
+          <Navbar />
+          <TaskContainer />
+        </div>
+      </QueryClientProvider>  
     </>
   );
 }
