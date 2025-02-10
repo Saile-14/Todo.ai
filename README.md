@@ -8,4 +8,4 @@ First collaborative effort for Saile-14 and DylanDoge
 ### Frontend
 Vite setup with React, Typescript and Tailwindcss with shadcn/ui.
 ### Backend
-Go
+Go, SQLite (database).
