@@ -1,4 +1,4 @@
-package handlers
+package tasksRoutes
 
 import (
 	"encoding/json"
@@ -44,7 +44,11 @@ func GetTask(w http.ResponseWriter, r *http.Request) {
 func CreateTask(w http.ResponseWriter, r *http.Request) {
 	var newTask models.Task
 	_ = json.NewDecoder(r.Body).Decode(&newTask)
+	
+
 	tasks = append(tasks, newTask)
+
+	
 	json.NewEncoder(w).Encode(newTask)
 }
 
