@@ -4,7 +4,15 @@ import { Button } from "@/components/ui/button"; // adjust the import path as ne
 
 const ArchiveDrawer: React.FC = () => {
   return (
-    <div className="relative w-4/5 h-[500px] mx-auto mt-12 border border-gray-300 rounded-md overflow-hidden bg-white">
+    <div className="relative">
+      {/* Folder Tab */}
+      <div
+  className="w-40 h-12 bg-blue-500 cursor-pointer transition-transform duration-300 hover:translate-y-[-10px]"
+  style={{ clipPath: "polygon(0% 0%, 100% 0%, 90% 100%, 10% 100%)" }}
+>
+        <p className="text-white text-center pt-3">Click Me</p>
+      </div>
+
       {/* Main Content */}
       <div className="p-4">
         <h1 className="text-xl font-semibold mb-4">Task Container</h1>

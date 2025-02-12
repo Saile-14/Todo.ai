@@ -8,6 +8,7 @@ import { Login } from "@/lib/mutations/login";
 import { currentUserAtom } from "@/lib/atoms";
 import { useNavigate } from "react-router";
 import { useAtom } from "jotai";
+import { toast } from "sonner";
 
 export function LoginForm({
   className,
@@ -44,7 +45,7 @@ export function LoginForm({
     onError: (error: any) => {
       const errorMessage =
         error.response?.data?.message || "An unexpected error occurred.";
-      alert(`Error: ${errorMessage}`);
+        toast.error(`Error: ${errorMessage}`)
     },
   });
 
@@ -90,12 +91,6 @@ export function LoginForm({
         <div className="grid gap-2">
           <div className="flex items-center">
             <Label htmlFor="password">Password</Label>
-            <a
-              href="#"
-              className="ml-auto text-sm underline-offset-4 hover:underline"
-            >
-              Forgot your password?
-            </a>
           </div>
           <Input
             id="password"

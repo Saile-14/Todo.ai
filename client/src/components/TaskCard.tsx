@@ -45,7 +45,7 @@ export const TaskCard = ({ id, title, content, isChecked }: TaskCardProps) => {
             </div>
 
             {/* Title */}
-            <div className="text-lg ml-6  font-medium ">
+            <div className="text-2xl ml-6  font-medium ">
               {title}
             </div>
             <div className="ml-auto mr-8">
@@ -57,7 +57,7 @@ export const TaskCard = ({ id, title, content, isChecked }: TaskCardProps) => {
         
 
         {/* Content */}
-        <AccordionContent className="px-4 pb-4 text-center text-gray-600 overflow-hidden data-[state=open]:animate-accordion-open data-[state=closed]:animate-accordion-close">
+        <AccordionContent className="px-4 pb-4 text-center text-gray-700 text-lg overflow-hidden data-[state=open]:animate-accordion-open data-[state=closed]:animate-accordion-close">
           <div className="pt-2">
             {content}
           </div>

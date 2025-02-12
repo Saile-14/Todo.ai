@@ -20,6 +20,7 @@
   animation: gradientAnimation 15s ease infinite;
 }
 
+
 .custom-scrollbar::-webkit-scrollbar {
   width: 8px;
 }

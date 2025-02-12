@@ -16,24 +16,29 @@ export function TaskOptionsButton({initialTitle, initialContent, id}: {initialTi
   const {mutate: updateTask} = useUpdateTask();
   const {mutate: deleteTask} = useDeleteTask();
 
-  function handleEdit() {
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+
+  function handleEditSubmit() {
     updateTask({taskId: id, data:{ title: title, content: content}})
   }
 
-  function handleDelete() { 
+  function handleDeleteSubmit() { 
     console.log(id);
     deleteTask(id);
   }
 
+  
+
   return (
     <>
-      <DropdownMenu>
+     <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" size="icon">
             <Ellipsis />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="" onClick={(e)=>e.stopPropagation()} onCloseAutoFocus={(e) => e.preventDefault()}>
+        <DropdownMenuContent className="" onCloseAutoFocus={(e) => e.preventDefault()}>
           <Dialog>
             <DialogTrigger asChild>
               <DropdownMenuItem className="w-full text-center justify-center" onSelect={(e) => e.preventDefault()}>
@@ -49,7 +54,7 @@ export function TaskOptionsButton({initialTitle, initialContent, id}: {initialTi
               </div> 
               <div className="flex justify-end space-x-4">
                 <DialogClose asChild>
-                  <Button onClick={() => handleEdit()} variant="outline" size="sm">Apply</Button>
+                  <Button onClick={() => handleEditSubmit()} variant="outline" size="sm">Apply</Button>
                 </DialogClose>
                 <DialogClose asChild>
                   <Button size="sm">Close</Button>
@@ -72,7 +77,7 @@ export function TaskOptionsButton({initialTitle, initialContent, id}: {initialTi
                 </DialogDescription>
                 <div className="flex justify-end space-x-4">
                   <DialogClose asChild>
-                    <Button onClick={() => handleDelete()} variant="destructive" size="sm">Confirm</Button>
+                    <Button onClick={() => handleDeleteSubmit()} variant="destructive" size="sm">Confirm</Button>
                   </DialogClose>
                   <DialogClose asChild>
                     <Button size="sm">Close</Button>
@@ -82,7 +87,8 @@ export function TaskOptionsButton({initialTitle, initialContent, id}: {initialTi
             </DialogContent>
           </Dialog>
         </DropdownMenuContent>
-      </DropdownMenu>     
+      </DropdownMenu>  
+      
     </>
   );
 }
