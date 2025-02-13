@@ -74,7 +74,7 @@ const TaskContainer = () => {
   <AccordionItem value="item-1">
     {/* Folder Tab Styling for AccordionTrigger */}
     <AccordionTrigger
-      className="justify-center rounded-t-xl   hover:no-underline backface-hidden bg-gray-300 max-w-40 max-h-20 mx-auto ml-8 [clip-path:polygon(0_60%,71%_60%,100%_100%,0%_100%)] transition-transform duration-300  relative"
+      className="justify-center rounded-t-xl   hover:no-underline backface-hidden bg-gray-300 max-w-40 max-h-20 mx-auto ml-0 [clip-path:polygon(0_60%,71%_60%,100%_100%,0%_100%)] transition-transform duration-300  relative"
     >
       {/* Archive Text */}
       <span className="pt-12 pr-4">
