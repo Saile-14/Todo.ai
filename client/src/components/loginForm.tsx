@@ -37,7 +37,7 @@ export function LoginForm({
         
         return;
       }
-      localStorage.setItem("token", data.token);
+      localStorage.setItem("Authorization", `Bearer ${data.token}`);
       setCurrentUser(data.userId)
       queryClient.invalidateQueries({ queryKey: ['currentUser'] });
       navigate('/tasks');

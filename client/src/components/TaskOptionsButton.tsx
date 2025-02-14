@@ -16,11 +16,8 @@ export function TaskOptionsButton({initialTitle, initialContent, id}: {initialTi
   const {mutate: updateTask} = useUpdateTask();
   const {mutate: deleteTask} = useDeleteTask();
 
-  const [isEditOpen, setIsEditOpen] = useState(false);
-  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
-
   function handleEditSubmit() {
-    updateTask({taskId: id, data:{ title: title, content: content}});
+    updateTask({id: id, data:{ title: title, description: content}});
     handleEditClose();
   }
 

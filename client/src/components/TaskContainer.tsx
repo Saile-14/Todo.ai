@@ -2,22 +2,23 @@ import { TaskInput } from "./TaskInput";
 import { TaskCard } from "./TaskCard";
 import { ScrollArea } from "./ui/scroll-area";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./ui/accordion";
+import { useGetTasks } from "@/lib/hooks/useGetTasks";
 
 export interface Task {
   id:number,
   title:string,
-  content:string,
-  isChecked:boolean,
-  createdAt:string,
+  description:string,
+  checked:boolean,
 }
+
 
 const TaskContainer = () => {
 
   
-  const taskss = [{id:1, title: "hsdfsd", content:"sdfsdfsdfdsf", isChecked:false, createdAt:"sdlfkjsdlfksj"}, {id:2, title: "Hejjjj", content:"jodåååå", isChecked:true, createdAt:"sdlfkjsdlfksj"}]
+  /* const taskss = [{id:1, title: "hsdfsd", content:"sdfsdfsdfdsf", checked:false, createdAt:"sdlfkjsdlfksj"}, {id:2, title: "Hejjjj", content:"jodåååå", checked:true, createdAt:"sdlfkjsdlfksj"}] */
   
-  /*  const {data: tasks, isError, isPending, error} = useGetTasks(); */
-
+  const {data: tasks} = useGetTasks();
+  console.log(tasks)
   return (
     <>
     <div className="flex flex-col items-center min-h-[89vh] pt-4 ">
@@ -34,18 +35,19 @@ const TaskContainer = () => {
         {/* Task Cards */}
         <ScrollArea className="flex-1">
           <div className="space-y-4">
-            {taskss.flatMap((task:Task, taskIndex:number) => {
-              if (!task.isChecked) {
+            {tasks ? tasks.flatMap((task:Task, taskIndex:number) => {
+              if (!task.checked) {
                 return (<TaskCard
                 key={taskIndex}
                 id={task.id}
                 title={task.title}
-                content={task.content}
-                isChecked={task.isChecked}
+                description={task.description}
+                checked={task.checked}
               />)
 
               }
-              })}
+              }) : null}
+            
             {/* {isPending && <p>Loading...</p>}
             {isError && <p>Error: {String(error)}</p>}
             {tasks! && <p>Error, no tasks found!</p>} */}
@@ -56,13 +58,13 @@ const TaskContainer = () => {
     <AccordionTrigger className="text-center justify-center bg-gray-400">Archive</AccordionTrigger>
     <AccordionContent>
     {taskss.flatMap((task:Task, taskIndex:number) => {
-              if (task.isChecked) {
+              if (task.checked) {
                 return (<TaskCard
                 key={taskIndex}
                 id={task.id}
                 title={task.title}
                 content={task.content}
-                isChecked={task.isChecked}
+                checked={task.checked}
               />)
 
               }
@@ -82,19 +84,18 @@ const TaskContainer = () => {
   </span>
     </AccordionTrigger>
     <AccordionContent className="border-t-2">
-      {taskss.flatMap((task: Task, taskIndex: number) => {
-        if (task.isChecked) {
-          return (
-            <TaskCard
-              key={taskIndex}
-              id={task.id}
-              title={task.title}
-              content={task.content}
-              isChecked={task.isChecked}
-            />
-          );
-        }
-      })}
+    {tasks ? tasks.flatMap((task:Task, taskIndex:number) => {
+              if (task.checked) {
+                return (<TaskCard
+                key={taskIndex}
+                id={task.id}
+                title={task.title}
+                description={task.description}
+                checked={task.checked}
+              />)
+
+              }
+              }) : null}
     </AccordionContent>
   </AccordionItem>
 </Accordion>

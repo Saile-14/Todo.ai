@@ -16,7 +16,7 @@ function App() {
         <Routes>
           <Route path="/" element={<ProtectedRoute><TaskPage /></ProtectedRoute>} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/sign-up" element={<RegisterPage />} />
+          <Route path="/register" element={<RegisterPage />} />
         </Routes>
       </BrowserRouter>
       <Toaster position='bottom-center' richColors/>

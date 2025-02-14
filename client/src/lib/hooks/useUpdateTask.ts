@@ -1,10 +1,9 @@
 import { useMutation, UseMutationOptions, useQueryClient } from "@tanstack/react-query";
 import { updateTask, updateTaskData } from "../mutations/updateTask";
-import { Task } from "@/components/TaskContainer";
 /* import { TaskCardProps } from "@/components/TaskCard"; */
 
 export type updateTaskVariables = {
-    taskId: number,
+    id: number,
     data: updateTaskData,
 }
 
@@ -15,29 +14,29 @@ export function useUpdateTask (
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (variables: updateTaskVariables) => updateTask(variables.taskId, variables.data), ...options,
+    mutationFn: (variables: updateTaskVariables) => updateTask(variables.id, variables.data), ...options,
     onMutate: async (newTodo) => {
       // Cancel any outgoing refetches
       // (so they don't overwrite our optimistic update)
-      await queryClient.cancelQueries({ queryKey: ['tasks', newTodo.taskId] })
+      await queryClient.cancelQueries({ queryKey: ['tasks'] })
         
       // Snapshot the previous value
-      const previousTodo = queryClient.getQueryData(['tasks', newTodo.taskId])
+      const previousTodo = queryClient.getQueryData(['tasks'])
         
       // Optimistically update to the new value
-      queryClient.setQueryData(['tasks', newTodo.taskId], newTodo)
+      queryClient.setQueryData(['tasks'], newTodo)
         
       // Return a context with the previous and new todo
       return { previousTodo, newTodo }
     },
     onError: (_err, _newTodo, context) => {
       queryClient.setQueryData(
-        ['todos', context!.newTodo.taskId],
+        ['todos', context!.newTodo.id],
               context!.previousTodo,
       )
     },
-    onSettled: (newTodo) => {
-      queryClient.invalidateQueries({ queryKey: ['tasks', newTodo.taskId] })
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['tasks'] })
     },
         
 

@@ -9,18 +9,20 @@ export const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("Authorization");
+    console.log(token);
     if (token && config.headers) {
-      config.headers["x-access-token"] = token;
+      config.headers["Authorization"] = token;
     }
     return config;
   },
   (error) => { 
+    console.log("here the error occurs")
     return Promise.reject(error);
   }
 );
 
-api.interceptors.response.use(
+/* api.interceptors.response.use(
   (response) => response,
   (error) => {
     console.log('Interceptor error callback triggered:', error.response?.status);
@@ -30,4 +32,4 @@ api.interceptors.response.use(
     }
     return Promise.reject(error);
   }
-);
+); */

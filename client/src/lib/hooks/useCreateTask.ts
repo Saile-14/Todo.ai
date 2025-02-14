@@ -7,7 +7,7 @@ export function useCreateTask () {
 
   const mutate = useMutation({
     mutationFn: createTask,
-    onSuccess: () =>  queryClient.invalidateQueries({ queryKey: ['todos'] }),
+    onSuccess: () =>  queryClient.invalidateQueries({ queryKey: ['tasks'] }),
     onError: (error) => {console.log('Error creating task', error)},
   })
 
