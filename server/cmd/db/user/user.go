@@ -2,7 +2,7 @@ package userDB
 
 import (
 	"fmt"
-	"log"
+	// "log"
 	
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
@@ -38,7 +38,8 @@ func CreateUser(db *gorm.DB, newUser User) (bool) {
 	hashedPassword, err := HashPasword(newUser.Password)
 	
 	if err != nil {
-		log.Fatal(err)
+		// log.Fatal(err)
+		fmt.Printf("Could not create user")
 		return false
 	}
 	fmt.Println(hashedPassword)
@@ -47,23 +48,33 @@ func CreateUser(db *gorm.DB, newUser User) (bool) {
 	return result.Error == nil
 }
 
-func DoesUserExist(db *gorm.DB, id uint64, user User) (bool) {
+func DoesUserNotExist(db *gorm.DB, id uint64, user User) (bool) {
 	err := db.First(&user, id).Error
 	return errors.Is(err, gorm.ErrRecordNotFound)
 }
 
-func ReadUser(db *gorm.DB, id uint64, user *User) (bool) {
-	if DoesUserExist(db, id, *user) {
+func ReadUserFromID(db *gorm.DB, id uint64, user *User) (bool) {
+	if DoesUserNotExist(db, id, *user) {
 		return false
 	}
 	db.First(&user, id) 
 	return true
 }
 
+func FindUserIDFromUsername(db *gorm.DB, username string, user *User) (bool) {
+	err := db.First(&user, "username = ?", username).Error
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		// log.Fatal(err)
+		fmt.Printf("User not found")
+		return false
+	}
+	return true
+}
+
 // As username is unique for logins, there should be a doesUsernameExist to keep uniqueness.
 func UpdateUser(db *gorm.DB, id uint64, newUsername string) (bool) {
 	var user User
-	if DoesUserExist(db, id, user) {
+	if DoesUserNotExist(db, id, user) {
 		return false
 	}
 	
@@ -73,7 +84,7 @@ func UpdateUser(db *gorm.DB, id uint64, newUsername string) (bool) {
 
 func DeleteUser(db *gorm.DB, id uint64) (bool) {
 	var user User
-	if DoesUserExist(db, id, user) {
+	if DoesUserNotExist(db, id, user) {
 		return false
 	}
 	

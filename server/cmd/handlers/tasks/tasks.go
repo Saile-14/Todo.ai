@@ -6,12 +6,18 @@ import (
 	"net/http"
 	"strconv"
 
-	"server/cmd/models" // Import the models package
-
 	"github.com/gorilla/mux"
 )
 
-var tasks []models.Task
+// Task Json Object
+type Task struct {
+	Original_Query string `json:"query"`
+	Title          string `json:"title"`
+	Description    string `json:"desc"`
+	Finished       bool   `json:"finished"`
+}
+
+var tasks []Task
 
 // ./tasks GET
 func GetTasks(w http.ResponseWriter, r *http.Request) {
@@ -42,7 +48,7 @@ func GetTask(w http.ResponseWriter, r *http.Request) {
 
 // ./tasks POST
 func CreateTask(w http.ResponseWriter, r *http.Request) {
-	var newTask models.Task
+	var newTask Task
 	_ = json.NewDecoder(r.Body).Decode(&newTask)
 	
 
