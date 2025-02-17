@@ -1,18 +1,26 @@
-import  Navbar  from './components/Navbar';
-import TaskContainer from './components/TaskContainer';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { TaskPage } from './pages/TaskPage';
+import { LoginPage } from './pages/LoginPage';
+import { BrowserRouter, Route, Routes } from 'react-router';
+import { RegisterPage } from './pages/RegisterPage';
+import { Toaster } from 'sonner';
+import ProtectedRoute from './components/ProtectedRoute';
 
 const queryClient = new QueryClient()
 
 function App() {
   return (
     <>
-      <QueryClientProvider client={queryClient}>
-        <div className='animated-background'>
-          <Navbar />
-          <TaskContainer />
-        </div>
-      </QueryClientProvider>  
+        <QueryClientProvider client={queryClient}>
+        <BrowserRouter> 
+        <Routes>
+          <Route path="/" element={<ProtectedRoute><TaskPage /></ProtectedRoute>} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+        </Routes>
+      </BrowserRouter>
+      <Toaster position='bottom-center' richColors/>
+    </QueryClientProvider>  
     </>
   );
 }

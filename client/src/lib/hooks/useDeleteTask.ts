@@ -1,31 +1,31 @@
 import { useMutation, UseMutationOptions, useQueryClient } from "@tanstack/react-query";
 import { deleteTask } from "../mutations/deleteTask";
 import { Task } from "@/components/TaskContainer";
-import { Variable } from "lucide-react";
+
 
 export function useDeleteTask ( options?: UseMutationOptions<any, Error, number>) {
 
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: ( taskId: number) => deleteTask(taskId), ...options,
-    onMutate: async (taskId) => {
-      await queryClient.cancelQueries({queryKey: ['tasks', taskId]});
+    mutationFn: ( id: number) => deleteTask(id), ...options,
+    onMutate: async (id) => {
+      await queryClient.cancelQueries({queryKey: ['tasks', id]});
   
-      const previousTasks: Task[] = queryClient.getQueryData(['tasks', taskId]) as Task[];
+      const previousTasks: Task[] = queryClient.getQueryData(['tasks', id]) as Task[];
       
       if (previousTasks) {
-        queryClient.setQueryData(['tasks', taskId], () =>
-          previousTasks.filter((task: Task) => task.id !== taskId)
+        queryClient.setQueryData(['tasks', id], () =>
+          previousTasks.filter((task: Task) => task.id !== id)
         );
       }
   
-      return { previousTasks, taskId };
+      return { previousTasks, id };
     },
-    onError: (_err, taskId , context) => {
-      queryClient.setQueryData(['tasks', taskId], context!.previousTasks);
+    onError: (_err, id , context) => {
+      queryClient.setQueryData(['tasks', id], context!.previousTasks);
     },
-    onSettled: (_newData, _error, taskId ) => {
-      queryClient.invalidateQueries({queryKey: ['tasks', taskId]});
+    onSettled: (_newData, _error, id ) => {
+      queryClient.invalidateQueries({queryKey: ['tasks', id]});
   }})
 }

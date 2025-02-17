@@ -4,18 +4,18 @@ import { api } from "../axios";
 interface Task {
     id: number,
     title: string,
-    content: string,
-    isChecked: boolean
+    description: string,
+    checked: boolean
 
 }
 
 export interface updateTaskData {
     title?: string,
-    content?: string,
-    isChecked?: boolean,
+    description?: string,
+    checked?: boolean,
 }
 
-export async function updateTask(taskId:number , data: updateTaskData): Promise<Task> {
-  const response = await api.patch(`/tasks/${taskId}`, data);
+export async function updateTask(id:number , data: updateTaskData): Promise<Task> {
+  const response = await api.put(`/tasks/${id}`, data);
   return response.data;
 }

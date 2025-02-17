@@ -6,12 +6,12 @@ import { updateTaskVariables, useUpdateTask } from "@/lib/hooks/useUpdateTask";
 export interface TaskCardProps {
   id: number;
   title: string;
-  content: string;
-  isChecked: boolean;
+  description: string;
+  checked: boolean;
   createdAt?: Date;
 }
 
-export const TaskCard = ({ id, title, content, isChecked }: TaskCardProps) => {
+export const TaskCard = ({ id, title, description, checked }: TaskCardProps) => {
   const {mutate: updateTask} = useUpdateTask();
   function onCheckChange(variables: updateTaskVariables) {
   
@@ -36,8 +36,8 @@ export const TaskCard = ({ id, title, content, isChecked }: TaskCardProps) => {
               <label htmlFor={`task-${id}`} className="cursor-pointer" onClick={(e) => e.stopPropagation()} >
                 <Checkbox
                   id={`task-${id}`}
-                  checked={isChecked}
-                  onCheckedChange={(checked) => onCheckChange({taskId: id, data:{isChecked:checked as boolean}})}
+                  checked={checked}
+                  onCheckedChange={(checked) => onCheckChange({id: id, data:{checked:checked as boolean}})}
                   className="w-8 h-8"
                   
                 />
@@ -45,11 +45,11 @@ export const TaskCard = ({ id, title, content, isChecked }: TaskCardProps) => {
             </div>
 
             {/* Title */}
-            <div className="text-lg ml-6  font-medium ">
+            <div className="text-2xl ml-6  font-medium ">
               {title}
             </div>
             <div className="ml-auto mr-8">
-              <TaskOptionsButton initialTitle={title} initialContent={content} id={id} />
+              <TaskOptionsButton initialTitle={title} initialContent={description} id={id} />
             </div>
           
           </div>
@@ -57,9 +57,9 @@ export const TaskCard = ({ id, title, content, isChecked }: TaskCardProps) => {
         
 
         {/* Content */}
-        <AccordionContent className="px-4 pb-4 text-center text-gray-600 overflow-hidden data-[state=open]:animate-accordion-open data-[state=closed]:animate-accordion-close">
+        <AccordionContent className="px-12 pb-4  font-light text-lg overflow-hidden data-[state=open]:animate-accordion-open data-[state=closed]:animate-accordion-close">
           <div className="pt-2">
-            {content}
+            {description}
           </div>
         </AccordionContent>
       </AccordionItem>

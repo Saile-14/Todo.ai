@@ -1,6 +1,5 @@
 import { api } from "../axios";
 
-export async function deleteTask(taskId: number): Promise<void>{
-  console.log("taskid in deletetask", taskId)
-  return await api.delete(`/tasks/${taskId}`);
+export async function deleteTask(id: number): Promise<void>{
+  return await api.delete(`/tasks/${id}`);
 }
